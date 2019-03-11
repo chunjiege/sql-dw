@@ -36,3 +36,33 @@ CREATE TABLE user
   extension VARCHAR (1000) DEFAULT '0'                     NULL
   COMMENT '扩展字段',
 );
+
+CREATE TABLE client
+(
+  id                     BIGINT AUTO_INCREMENT
+  COMMENT '客户端 ID'
+    PRIMARY KEY,
+  client_id              VARCHAR(32)                                                                                       NOT NULL
+  COMMENT '客户端 ID',
+  client_secret          VARCHAR(64)                                                                                       NOT NULL,
+  resource_ids           VARCHAR(256)                                                                                      NULL
+  COMMENT '资源 ID 集合 逗号分隔',
+  scope                  VARCHAR(64) DEFAULT 'read,write'                                                                  NOT NULL
+  COMMENT '操作范围，read,write',
+  authorized_grant_types VARCHAR(256) DEFAULT 'authorization_code, password, client_credentials, implicit, refresh_token'  NOT NULL
+  COMMENT '授权类型',
+  authorities            VARCHAR(512)                                                                                      NULL
+  COMMENT '默认权限集合，逗号分隔',
+  access_token_validity  INT DEFAULT '86400'                                                                               NULL
+  COMMENT 'AccessToken 有效期，单位：秒',
+  refresh_token_validity INT DEFAULT '86400'                                                                               NULL
+  COMMENT 'RefreshToken 有效期，默认单位：秒',
+  autoapprove            VARCHAR(50) DEFAULT '.*'                                                                          NOT NULL
+  COMMENT '自动授予',
+  enabled                TINYINT(1) DEFAULT '1'                                                                            NOT NULL,
+  created_at             TIMESTAMP DEFAULT CURRENT_TIMESTAMP                                                               NOT NULL,
+  updated_at             TIMESTAMP DEFAULT CURRENT_TIMESTAMP                                                               NOT NULL,
+  CONSTRAINT client_client_id_index
+  UNIQUE (client_id)
+)
+  ENGINE = InnoDB;
