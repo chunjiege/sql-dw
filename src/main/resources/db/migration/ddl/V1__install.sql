@@ -9,17 +9,16 @@ CREATE TABLE global_user
   COMMENT '账号',
   password  VARCHAR(128)                                  NOT NULL
   COMMENT '密码',
-  locked    INYINT(1) DEFAULT '0'                        NULL
+  locked    TINYINT(1) DEFAULT '0'                        NULL
   COMMENT '用户锁定',
   enabled   TINYINT(1) DEFAULT '1'                        NOT NULL,
-  expired   TINYINT(1) DEFAULT '0'                        NULL
+  expired   TINYINT(1) DEFAULT '0'                        NOT NULL
   COMMENT '用户过期',
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP           NOT NULL,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP           NOT NULL,
   CONSTRAINT user_guid_index
   UNIQUE (guid)
-)
-  ENGINE = InnoDB;
+)ENGINE = InnoDB;
 
 CREATE TABLE user
 (
@@ -32,9 +31,8 @@ CREATE TABLE user
   COMMENT '姓名',
   mobile_phone VARCHAR(11)                                 NOT NULL
   COMMENT '移动电话',
-
   extension VARCHAR (1000) DEFAULT '0'                     NULL
-  COMMENT '扩展字段',
+  COMMENT '扩展字段'
 );
 
 CREATE TABLE client
@@ -66,3 +64,23 @@ CREATE TABLE client
   UNIQUE (client_id)
 )
   ENGINE = InnoDB;
+
+CREATE TABLE image
+(
+  id bigint(20) primary key
+  AUTO_INCREMENT,
+
+  user_id bigint(20) NOT NULL
+                  COMMENT '操作者',
+  path varchar(50) NOT NULL
+                  COMMENT '文件路径',
+  file_name varchar(100) NOT NULL
+                  COMMENT '文件名称',
+  format varchar(100) NOT NULL
+                  COMMENT '存储格式',
+  is_delete tinyint(1) default 0 NOT NULL
+                  COMMENT '是否删除',
+  created_at timestamp default CURRENT_TIMESTAMP NOT NULL
+                  COMMENT '创建时间'
+)
+ENGINE = InnoDB;
